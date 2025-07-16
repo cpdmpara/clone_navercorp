@@ -6,7 +6,7 @@ window.addEventListener("scroll",
         if (window.scrollY > lastScrollY) {
             header_element.className = "header-hide";
         }
-        else {
+        else if(window.scrollY < lastScrollY) {
             header_element.className = "header-show";
         }
        lastScrollY = window.scrollY;
@@ -17,8 +17,6 @@ const hour = document.getElementsByClassName("hour")[0]
 const minute = document.getElementsByClassName("minute")[0]
 const second = document.getElementsByClassName("second")[0]
 const colons = document.getElementsByClassName("colon");
-
-console.log(colons)
 
 setInterval(
     () => {
@@ -43,3 +41,67 @@ setInterval(
     },
     50
 );
+
+const navs = document.getElementsByClassName("nav-content");
+const details = document.getElementsByClassName("detail_shell");
+const main = document.getElementsByTagName("main")[0];
+const footer = document.getElementsByTagName("footer")[0];
+const dropdown_map = {
+    회사소개: 0,
+    서비스: 1,
+    기술: 2,
+    ESG: 3,
+    투자정보: 4,
+    미디어: 5
+};
+
+function blur() {
+    main.style.filter = "blur(8px) brightness(20%)";
+    footer.style.filter = "blur(8px) brightness(20%)";
+}
+
+function clear_blur() {
+    main.style.filter = "none";
+    footer.style.filter = "none";
+}
+
+for (let i = 0; i < 6; i++) {
+    navs[i].addEventListener(
+        "mouseover",
+        (event) => {
+            for (let j = 0; j < 6; j++) {
+                details[j].className = "detail_shell";
+            }
+            details[dropdown_map[event.target.textContent]].className = "detail_shell header_show";
+            blur();
+        }
+    )
+
+    details[i].addEventListener(
+        "mouseleave",
+        (event) => {
+            event.target.className = "detail_shell header_off";
+            clear_blur();
+        }
+    )
+}
+
+navs[6].addEventListener(
+    "mouseover",
+    () => {
+        for (let j = 0; j < 6; j++) {
+            details[j].className = "detail_shell header_off";
+        }
+        clear_blur();
+    }
+)
+
+navs[7].addEventListener(
+    "mouseover",
+    () => {
+        for (let j = 0; j < 6; j++) {
+            details[j].className = "detail_shell header_off";
+        }
+        clear_blur();
+    }
+)
